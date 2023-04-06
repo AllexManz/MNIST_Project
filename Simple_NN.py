@@ -1,27 +1,37 @@
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as f
-from torch.utils.data import DataLoader
-import torchvision.datasets as datasets
-import torchvision.transforms as transforms
+import torch.nn as nn  # All neural network modules, nn.Linear, nn.Conv2d, BatchNorm, Loss Functions
+import torch.optim as optim  # All optimisation algorithms SGD, Adam, etc.
+import torch.nn.functional as F  # All functions that don't have any parameters
+from torch.utils.data import DataLoader  # Gives easier dataset management and creates batches
+import torchvision.datasets as datasets  # Standard datasets
+import torchvision.transforms as transforms  # Transformations we can perform on our dataset
 
 
 # Creation of Neural Network
 class NN(nn.Module):
+    """
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+        def __init__(self,
+                     input_size: int,
+                     num_class: int):
+            super(NN, self).__init__()
+            self.fc1 = nn.Linear(input_size, 50)
+            self.fc2 = nn.Linear(50, num_class)
+    """
     def __init__(self, input_size: int, num_class: int):  # (28x28) = 784
         super(NN, self).__init__()
         self.fc1 = nn.Linear(input_size, 50)
         self.fc2 = nn.Linear(50, num_class)
 
     def forward(self, x):
-        x = f.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
+        x = F.relu(self.fc1(x))
+        return self.fc2(x)
 
 
 # Creating a function for accuracy testing
-def check_accuracy(loader, model):
+def check_accuracy(loader, model: NN):
     if loader.dataset.train:
         print("Checking accuracy on train dataset")
     else:
@@ -43,7 +53,7 @@ def check_accuracy(loader, model):
             num_correct += (predictions == y).sum()
             num_samples += predictions.size(0)
 
-    print(f"Got {num_correct} / {num_samples} with accuracy: {float(num_correct/num_samples) * 100:.2f}")
+    print(f"Got {num_correct} / {num_samples} with accuracy: {float(num_correct/num_samples) * 100:.2f}\n")
     model.train()
 
 
