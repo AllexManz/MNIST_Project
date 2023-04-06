@@ -9,6 +9,24 @@ import torchvision.transforms as transforms  # Transformations we can perform on
 
 # Creation of Convolutional Neural Network
 class CNN(nn.Module):
+    """
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+
+        def __init__(self, in_channels: int = 1, num_classes: int = 10,
+                 out_channels: int = 8, kernel_size: tuple = (3, 3),
+                 stride: tuple = (1, 1), padding: tuple = (1, 1)):
+        super(CNN, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels=in_channels, out_channels=out_channels,
+                               kernel_size=kernel_size, stride=stride,
+                               padding=padding)  # same convolution
+        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.conv2 = nn.Conv2d(in_channels=8, out_channels=16,
+                               kernel_size=kernel_size, stride=stride,
+                               padding=padding)
+        self.fc1 = nn.Linear(16*7*7, num_classes)
+    """
     def __init__(self, in_channels: int = 1, num_classes: int = 10,
                  out_channels: int = 8, kernel_size: tuple = (3, 3),
                  stride: tuple = (1, 1), padding: tuple = (1, 1)):
@@ -61,9 +79,6 @@ def check_accuracy(loader, model: CNN):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Hyper-parameters
-in_channels = 1
-num_classes = 10
-out_channels = 8
 batch_size = 64
 learning_rate = 0.001
 num_epochs = 5
